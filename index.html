@@ -470,9 +470,9 @@ button:focus-visible, .btn:focus-visible, a:focus-visible {
   to   { opacity: 1; transform: scale(1); }
 }
 
-/* ── Equalizer: 8 barras VU meter (movimento "respiração") ── */
+/* ── Equalizer: 8 barras pulsam do centro (mais coladas na semínima) ── */
 .ha-eqbar {
-  transform-origin: center bottom;
+  transform-origin: center center;
   animation: ha-eqPulse 2.0s ease-in-out 7.1s infinite;
 }
 .ha-eqbar-2 { animation-duration: 2.4s; animation-delay: 7.3s;  }
@@ -483,8 +483,8 @@ button:focus-visible, .btn:focus-visible, a:focus-visible {
 .ha-eqbar-7 { animation-duration: 1.85s; animation-delay: 7.45s; }
 .ha-eqbar-8 { animation-duration: 2.1s; animation-delay: 7.25s; }
 @keyframes ha-eqPulse {
-  0%, 100% { transform: scaleY(.3); }
-  50%      { transform: scaleY(1);  }
+  0%, 100% { transform: scaleY(.45); }
+  50%      { transform: scaleY(1);   }
 }
 
 /* ── Semínima pulsa mais devagar (acompanha equalizer) ── */
@@ -1762,11 +1762,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </linearGradient>
         </defs>
 
-        <!-- Glow roxo de fundo (loop constante) -->
-        <ellipse class="ha-glow" cx="240" cy="260" rx="160" ry="200" fill="#8B5CF6" opacity=".10"/>
-
-        <!-- ═══════ MOCKUP CELULAR (some no fim) ═══════ -->
+        <!-- ═══════ MOCKUP CELULAR (some no fim, glow incluso) ═══════ -->
         <g class="ha-phone">
+          <!-- Glow roxo de fundo (dentro do phone group → some junto na transição) -->
+          <ellipse class="ha-glow" cx="240" cy="260" rx="160" ry="200" fill="#8B5CF6" opacity=".10"/>
           <!-- Frame + notch + screen -->
           <rect x="140" y="50" width="200" height="400" rx="34" fill="url(#ha-bg)" stroke="rgba(139,92,246,.5)" stroke-width="1.5"/>
           <rect x="200" y="62" width="80" height="14" rx="7" fill="#0A0A0F"/>
@@ -1858,14 +1857,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <text class="ha-note" x="240" y="220" text-anchor="middle" fill="#C6FF00" font-family="serif" font-size="72" font-weight="700">♩</text>
 
           <!-- 8 barras de equalizer (VU meter) — base y=420, altura max=140 -->
-          <rect class="ha-eqbar ha-eqbar-1" x="111" y="280" width="20" height="140" rx="4" fill="url(#ha-eq-lime)"/>
-          <rect class="ha-eqbar ha-eqbar-2" x="145" y="280" width="20" height="140" rx="4" fill="url(#ha-eq-purple)"/>
-          <rect class="ha-eqbar ha-eqbar-3" x="179" y="280" width="20" height="140" rx="4" fill="url(#ha-eq-lime)"/>
-          <rect class="ha-eqbar ha-eqbar-4" x="213" y="280" width="20" height="140" rx="4" fill="url(#ha-eq-purple)"/>
-          <rect class="ha-eqbar ha-eqbar-5" x="247" y="280" width="20" height="140" rx="4" fill="url(#ha-eq-lime)"/>
-          <rect class="ha-eqbar ha-eqbar-6" x="281" y="280" width="20" height="140" rx="4" fill="url(#ha-eq-purple)"/>
-          <rect class="ha-eqbar ha-eqbar-7" x="315" y="280" width="20" height="140" rx="4" fill="url(#ha-eq-lime)"/>
-          <rect class="ha-eqbar ha-eqbar-8" x="349" y="280" width="20" height="140" rx="4" fill="url(#ha-eq-purple)"/>
+          <rect class="ha-eqbar ha-eqbar-1" x="111" y="250" width="20" height="120" rx="4" fill="url(#ha-eq-lime)"/>
+          <rect class="ha-eqbar ha-eqbar-2" x="145" y="250" width="20" height="120" rx="4" fill="url(#ha-eq-purple)"/>
+          <rect class="ha-eqbar ha-eqbar-3" x="179" y="250" width="20" height="120" rx="4" fill="url(#ha-eq-lime)"/>
+          <rect class="ha-eqbar ha-eqbar-4" x="213" y="250" width="20" height="120" rx="4" fill="url(#ha-eq-purple)"/>
+          <rect class="ha-eqbar ha-eqbar-5" x="247" y="250" width="20" height="120" rx="4" fill="url(#ha-eq-lime)"/>
+          <rect class="ha-eqbar ha-eqbar-6" x="281" y="250" width="20" height="120" rx="4" fill="url(#ha-eq-purple)"/>
+          <rect class="ha-eqbar ha-eqbar-7" x="315" y="250" width="20" height="120" rx="4" fill="url(#ha-eq-lime)"/>
+          <rect class="ha-eqbar ha-eqbar-8" x="349" y="250" width="20" height="120" rx="4" fill="url(#ha-eq-purple)"/>
         </g>
       </svg>
     </div>
