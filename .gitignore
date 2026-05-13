@@ -1,0 +1,21 @@
+# Vercel
+.vercel
+.env
+.env.local
+.env.production.local
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Node
+node_modules/
+
+# Claude
+.claude/
