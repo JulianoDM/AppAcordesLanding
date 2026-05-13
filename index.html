@@ -330,6 +330,140 @@ button:focus-visible, .btn:focus-visible, a:focus-visible {
 }
 
 /* ══════════════════════════════════
+   HERO ANIMATION (SVG inline, ~3KB)
+   Substitui a foto. Animação de demonstração:
+   - 0-2.5s: 4 acordes aparecem em sequência (Cm, E♭, Fm, Gm)
+   - 2.8-3.6s: botão "BAIXAR MIDI" pulsa (anel lime expande)
+   - 3.6-5.5s: arquivo .midi emerge do celular e desce
+   - 5.5s∞: celular some, ondas + semínima ficam pulsando
+   ══════════════════════════════════ */
+.hero-animation {
+  position: relative; z-index: 1;
+  aspect-ratio: 4/5;
+  max-height: 520px;
+  justify-self: end;
+  width: 100%;
+}
+.ha-svg { width: 100%; height: 100%; display: block; }
+
+/* Glow de fundo pulsa suave */
+.ha-glow {
+  transform-origin: center;
+  animation: ha-glowPulse 4s ease-in-out infinite;
+}
+@keyframes ha-glowPulse {
+  0%, 100% { opacity: .08; transform: scale(1); }
+  50%      { opacity: .14; transform: scale(1.06); }
+}
+
+/* Acordes aparecem em sequência */
+.ha-chord {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: ha-chordIn .45s cubic-bezier(.2,1,.3,1) forwards;
+}
+.ha-chord-1 { animation-delay: .6s; }
+.ha-chord-2 { animation-delay: 1.1s; }
+.ha-chord-3 { animation-delay: 1.6s; }
+.ha-chord-4 { animation-delay: 2.1s; }
+@keyframes ha-chordIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Botão "auto-pressiona" — escala pra baixo e volta */
+.ha-dlbtn {
+  transform-origin: 240px 372px;
+  animation: ha-press .45s ease-in-out 2.9s forwards;
+}
+@keyframes ha-press {
+  0%   { transform: scale(1); fill: #8B5CF6; }
+  50%  { transform: scale(.94); fill: #7C3AED; }
+  100% { transform: scale(1); fill: #8B5CF6; }
+}
+
+/* Anel de pulse lime ao redor do botão */
+.ha-pulse {
+  opacity: 0;
+  transform-origin: 240px 372px;
+  animation: ha-pulseRing .9s ease-out 3s forwards;
+}
+@keyframes ha-pulseRing {
+  0%   { opacity: 0; transform: scale(.95); }
+  30%  { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.18); }
+}
+
+/* Arquivo MIDI emerge do botão e desce — depois desaparece pra dar lugar às ondas */
+.ha-file {
+  opacity: 0;
+  animation:
+    ha-fileEmerge 1.6s cubic-bezier(.2,1,.3,1) 3.6s forwards,
+    ha-fileFade .8s ease-in 6.5s forwards;
+}
+@keyframes ha-fileEmerge {
+  0%   { opacity: 0; transform: translateY(-110px) scale(.85); }
+  40%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes ha-fileFade {
+  from { opacity: 1; }
+  to   { opacity: 0; transform: translateY(40px) scale(.9); }
+}
+
+/* Telefone some na transição pra cena final */
+.ha-phone {
+  animation: ha-phoneFade 1s ease-in 6.3s forwards;
+}
+@keyframes ha-phoneFade {
+  from { opacity: 1; }
+  to   { opacity: .15; }
+}
+
+/* Ondas + semínima entram em 6.5s e ficam pulsando pra sempre */
+.ha-waves {
+  opacity: 0;
+  animation: ha-wavesIn .8s ease-out 6.5s forwards;
+}
+@keyframes ha-wavesIn {
+  from { opacity: 0; transform: scale(.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.ha-note {
+  transform-origin: center;
+  animation: ha-noteBeat 1.2s ease-in-out 7.3s infinite;
+}
+@keyframes ha-noteBeat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-3px) scale(1.06); }
+}
+
+/* Ondas senoidais com leve oscilação contínua */
+.ha-wave {
+  transform-origin: center;
+  animation: ha-waveMotion 2.4s ease-in-out 7.3s infinite;
+}
+.ha-wave-2 { animation-duration: 2.8s; animation-delay: 7.5s; }
+.ha-wave-3 { animation-duration: 3.2s; animation-delay: 7.7s; }
+@keyframes ha-waveMotion {
+  0%, 100% { transform: translateY(0); opacity: .75; }
+  50%      { transform: translateY(-4px); opacity: 1; }
+}
+
+/* Respeitar prefers-reduced-motion: mostra estado final estático */
+@media (prefers-reduced-motion: reduce) {
+  .ha-glow, .ha-chord, .ha-dlbtn, .ha-pulse,
+  .ha-file, .ha-phone, .ha-waves, .ha-note, .ha-wave {
+    animation: none;
+  }
+  .ha-chord { opacity: 1; transform: none; }
+  .ha-file  { opacity: 0; }
+  .ha-phone { opacity: .15; }
+  .ha-waves { opacity: 1; }
+}
+
+/* ══════════════════════════════════
    BUTTONS
 ══════════════════════════════════ */
 .btn {
@@ -1279,7 +1413,8 @@ footer {
     text-align: center;
   }
   .hero-left { order: 1; }
-  .hero-photo {
+  .hero-photo,
+  .hero-animation {
     display: none;
   }
   /* Avatar row compacto — foto + nome lado a lado, ocupa ~60px vertical */
@@ -1553,16 +1688,81 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </dl>
     </div>
 
-    <figure class="hero-photo reveal" role="img" aria-label="Juliano Dias, pianista e produtor musical, em seu estúdio">
-      <picture>
-        <source srcset="img/foto-rosto.webp" type="image/webp">
-        <img src="img/foto-rosto.jpg" alt="Juliano Dias com fones de ouvido em frente ao FL Studio no estúdio" loading="eager" fetchpriority="high" width="480" height="600">
-      </picture>
-      <figcaption class="hero-photo-label">
-        <strong>Juliano Dias</strong>
-        Pianista &amp; Produtor Musical
-      </figcaption>
-    </figure>
+    <div class="hero-animation reveal" role="img" aria-label="Demonstração: app gerando progressão de acordes Cm Eb Fm Gm e exportando arquivo MIDI">
+      <svg class="ha-svg" viewBox="0 0 480 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="ha-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#16161E"/>
+            <stop offset="100%" stop-color="#0F0F18"/>
+          </linearGradient>
+          <linearGradient id="ha-screen-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#0A0A0F"/>
+            <stop offset="100%" stop-color="#13131C"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Glow roxo de fundo do celular -->
+        <ellipse class="ha-glow" cx="240" cy="260" rx="160" ry="200" fill="#8B5CF6" opacity=".10"/>
+
+        <!-- Mockup celular -->
+        <g class="ha-phone">
+          <rect x="140" y="50" width="200" height="400" rx="34" fill="url(#ha-bg)" stroke="rgba(139,92,246,.5)" stroke-width="1.5"/>
+          <rect x="200" y="62" width="80" height="14" rx="7" fill="#0A0A0F"/>
+          <rect x="155" y="92" width="170" height="340" rx="18" fill="url(#ha-screen-bg)"/>
+
+          <!-- Header do app -->
+          <text x="240" y="120" text-anchor="middle" fill="#8B5CF6" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="800" letter-spacing="1.5">LABORATÓRIO DE ACORDES</text>
+          <line x1="170" y1="128" x2="310" y2="128" stroke="rgba(139,92,246,.25)" stroke-width=".8"/>
+
+          <!-- 4 acordes da progressão (aparecem 1 a 1) -->
+          <g class="ha-chord ha-chord-1">
+            <rect x="170" y="142" width="140" height="36" rx="9" fill="rgba(139,92,246,.18)" stroke="#8B5CF6" stroke-width="1"/>
+            <text x="240" y="166" text-anchor="middle" fill="#F0ECE0" font-family="'Big Shoulders Display', Impact, sans-serif" font-size="20" font-weight="900">Cm</text>
+          </g>
+          <g class="ha-chord ha-chord-2">
+            <rect x="170" y="186" width="140" height="36" rx="9" fill="rgba(139,92,246,.18)" stroke="#8B5CF6" stroke-width="1"/>
+            <text x="240" y="210" text-anchor="middle" fill="#F0ECE0" font-family="'Big Shoulders Display', Impact, sans-serif" font-size="20" font-weight="900">E♭</text>
+          </g>
+          <g class="ha-chord ha-chord-3">
+            <rect x="170" y="230" width="140" height="36" rx="9" fill="rgba(139,92,246,.18)" stroke="#8B5CF6" stroke-width="1"/>
+            <text x="240" y="254" text-anchor="middle" fill="#F0ECE0" font-family="'Big Shoulders Display', Impact, sans-serif" font-size="20" font-weight="900">Fm</text>
+          </g>
+          <g class="ha-chord ha-chord-4">
+            <rect x="170" y="274" width="140" height="36" rx="9" fill="rgba(139,92,246,.18)" stroke="#8B5CF6" stroke-width="1"/>
+            <text x="240" y="298" text-anchor="middle" fill="#F0ECE0" font-family="'Big Shoulders Display', Impact, sans-serif" font-size="20" font-weight="900">Gm</text>
+          </g>
+
+          <!-- Botão de download (auto-pressiona) -->
+          <g class="ha-download">
+            <rect class="ha-dlbtn" x="170" y="350" width="140" height="44" rx="22" fill="#8B5CF6"/>
+            <text x="232" y="378" text-anchor="middle" fill="#000" font-family="'Big Shoulders Display', Impact, sans-serif" font-size="14" font-weight="900" letter-spacing=".5">BAIXAR MIDI</text>
+            <!-- Ícone download -->
+            <g transform="translate(284 365)" stroke="#000" stroke-width="2" stroke-linecap="round" fill="none">
+              <path d="M0 0 L0 8 M-4 4 L0 8 L4 4"/>
+            </g>
+            <!-- Anel de pulse lime -->
+            <rect class="ha-pulse" x="170" y="350" width="140" height="44" rx="22" fill="none" stroke="#C6FF00" stroke-width="2.5"/>
+          </g>
+        </g>
+
+        <!-- Arquivo MIDI que sai do celular -->
+        <g class="ha-file">
+          <rect x="195" y="460" width="90" height="110" rx="8" fill="#16161E" stroke="#C6FF00" stroke-width="1.5"/>
+          <path d="M 270 460 L 285 475 L 285 470 L 270 470 Z" fill="#C6FF00" opacity=".4"/>
+          <text x="240" y="497" text-anchor="middle" fill="#C6FF00" font-family="'Big Shoulders Display', Impact, sans-serif" font-size="22" font-weight="900">♪</text>
+          <text x="240" y="525" text-anchor="middle" fill="#C6FF00" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="1">ARQUIVO</text>
+          <text x="240" y="540" text-anchor="middle" fill="#C6FF00" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="700" letter-spacing="1">.MIDI</text>
+        </g>
+
+        <!-- Ondas de música + semínima (visual final, fica fixo pulsando) -->
+        <g class="ha-waves">
+          <text class="ha-note" x="240" y="455" text-anchor="middle" fill="#C6FF00" font-family="serif" font-size="42" font-weight="700">♩</text>
+          <path class="ha-wave ha-wave-1" d="M 80 480 Q 130 470 180 480 T 280 480 T 380 480 T 460 480" fill="none" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round" opacity=".75"/>
+          <path class="ha-wave ha-wave-2" d="M 70 495 Q 125 482 180 495 T 280 495 T 380 495 T 470 495" fill="none" stroke="#C6FF00" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+          <path class="ha-wave ha-wave-3" d="M 90 510 Q 140 502 190 510 T 290 510 T 390 510" fill="none" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+        </g>
+      </svg>
+    </div>
   </div>
 </section>
 
