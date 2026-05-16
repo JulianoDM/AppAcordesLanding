@@ -1599,6 +1599,37 @@ footer {
      trackeados. Pra landing de venda, esse trade vale (LCP ↓ melhora conversão).
 ═══════ -->
 <script>
+// ═══════ fbTrack — dispara evento no pixel (browser) + CAPI (servidor) ═══════
+// Mesmo event_id nos dois → Meta deduplica (não conta dobrado).
+// Purchase NÃO usa isso (é do Wiapy). Só funil: PageView/ViewContent/InitiateCheckout.
+window.fbTrack = function(eventName, customData){
+  var eid;
+  try { eid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : null; } catch(e){}
+  if(!eid) eid = 'e' + Date.now() + Math.random().toString(16).slice(2);
+  customData = customData || {};
+  if(typeof fbq === 'function'){
+    fbq('track', eventName, customData, { eventID: eid });
+  }
+  try {
+    var gc = function(n){
+      var m = document.cookie.match('(^|;)\\s*' + n + '\\s*=\\s*([^;]+)');
+      return m ? m.pop() : '';
+    };
+    fetch('/api/capi', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      keepalive: true,
+      body: JSON.stringify({
+        event_name: eventName,
+        event_id: eid,
+        event_source_url: location.href,
+        custom_data: customData,
+        fbp: gc('_fbp'),
+        fbc: gc('_fbc')
+      })
+    }).catch(function(){});
+  } catch(e){}
+};
 (function(){
   var loaded = false;
   function loadTracking(){
@@ -1617,8 +1648,8 @@ footer {
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s);
     }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init','1709201683591322');
-    fbq('track','PageView');
+    fbq('init','1709201683591322'); // TODO: trocar pelo Pixel ID NOVO (sincronizar com env META_PIXEL_ID)
+    window.fbTrack('PageView');
 
     // 2) Microsoft Clarity
     (function(c,l,a,r,i,t,y){
@@ -1669,6 +1700,7 @@ footer {
   });
 })();
 </script>
+<!-- TODO: trocar id=1709201683591322 pelo Pixel ID NOVO no swap final -->
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1709201683591322&ev=PageView&noscript=1"/></noscript>
 
@@ -2358,7 +2390,7 @@ var SITE_CONFIG = {
   oldPrice: 87,
   installments: 12,
   installmentValue: 3.16,
-  pixelId: '1709201683591322',
+  pixelId: '1709201683591322', // TODO: trocar pelo Pixel ID NOVO (= env META_PIXEL_ID)
   googleAdsId: 'AW-18073574495',
   gtmId: 'GTM-MKL2FD5C'
 };
@@ -2477,10 +2509,10 @@ if('IntersectionObserver' in window){
 // InitiateCheckout — quando clica em qualquer botão de compra
 document.querySelectorAll('[data-event]').forEach(function(btn){
   btn.addEventListener('click', function(){
-    if(typeof fbq==='function'){
-      fbq('track','InitiateCheckout',{
+    if(window.fbTrack){
+      window.fbTrack('InitiateCheckout',{
         content_name:'App Gerador de Acordes',
-        content_category:'Curso',
+        content_category:'App',
         value:37.90,
         currency:'BRL'
       });
@@ -2494,10 +2526,10 @@ if('IntersectionObserver' in window){
   if(pricingEl){
     var pxObs = new IntersectionObserver(function(entries){
       entries.forEach(function(e){
-        if(e.isIntersecting && typeof fbq==='function'){
-          fbq('track','ViewContent',{
+        if(e.isIntersecting){
+          if(window.fbTrack) window.fbTrack('ViewContent',{
             content_name:'Pricing Section',
-            content_category:'Curso',
+            content_category:'App',
             value:37.90,
             currency:'BRL'
           });
