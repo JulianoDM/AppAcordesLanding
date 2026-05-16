@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  const { event_name, event_id, event_source_url, custom_data, fbp, fbc } = body;
+  const { event_name, event_id, event_source_url, custom_data, fbp, fbc, test_event_code } = body;
 
   if (!event_name || ALLOWED_EVENTS.indexOf(event_name) === -1 || !event_id) {
     res.status(400).json({ error: 'invalid_event' });
@@ -63,6 +63,9 @@ export default async function handler(req, res) {
       ...(custom_data && typeof custom_data === 'object' ? { custom_data } : {}),
     }],
   };
+  // Só presente quando explicitamente testando (Test Events). Tráfego
+  // real do navegador nunca manda isso → vai pra produção normal.
+  if (test_event_code) payload.test_event_code = test_event_code;
 
   try {
     const r = await fetch(
