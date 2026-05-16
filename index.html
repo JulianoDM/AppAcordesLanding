@@ -56,7 +56,7 @@
 <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 <link rel="dns-prefetch" href="https://pay.hotmart.com">
 <link rel="dns-prefetch" href="https://static.hotmart.com">
-<link rel="dns-prefetch" href="https://pagamentoseguro.flstudiointeligente.online">
+<link rel="dns-prefetch" href="https://pay.wiapy.com">
 <link rel="dns-prefetch" href="https://connect.facebook.net">
 <link rel="dns-prefetch" href="https://www.clarity.ms">
 <link rel="dns-prefetch" href="https://cdn.utmify.com.br">
@@ -2378,12 +2378,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 // 'ggcheckout' = redirect nova aba (target _blank)
 var SITE_CONFIG = {
   // PRODUTO: App Gerador de Acordes (R$ 37,90 — produto avulso)
-  // ⚠️ Substituir 'ggcheckout' URL pelo novo link do Wiapy do APP quando user passar.
-  checkoutProvider: 'ggcheckout',  // 'hotmart' ou 'ggcheckout' (= Wiapy via GGCheckout URL)
+  // checkoutProvider 'ggcheckout' = comportamento redirect/nova aba (serve pro Wiapy também)
+  checkoutProvider: 'ggcheckout',  // 'hotmart' (popup) ou 'ggcheckout' (redirect — usado pelo Wiapy)
   checkoutUrls: {
     hotmart: 'https://pay.hotmart.com/K102592452T?checkoutMode=2',
-    // TEMP: link do app avulso antigo até user criar produto novo no Wiapy
-    ggcheckout: 'https://pagamentoseguro.flstudiointeligente.online/checkout/v2/5OXFpltVcWHNpCEvccbY'
+    // Link oficial do checkout Wiapy do App de Acordes
+    ggcheckout: 'https://pay.wiapy.com/W4zTwKWQcJ'
   },
   price: 37.90,
   oldPrice: 87,
