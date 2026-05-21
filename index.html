@@ -2275,100 +2275,177 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
     <div class="footer-legal">
-      <a onclick="document.getElementById('modal-privacidade').classList.add('open')">Pol&iacute;tica de Privacidade</a>
-      <a onclick="document.getElementById('modal-termos').classList.add('open')">Termos de Uso</a>
+      <a role="button" tabindex="0" onclick="openLegal('modal-privacidade')" onkeydown="if(event.key==='Enter')openLegal('modal-privacidade')">Pol&iacute;tica de Privacidade</a>
+      <a role="button" tabindex="0" onclick="openLegal('modal-termos')" onkeydown="if(event.key==='Enter')openLegal('modal-termos')">Termos de Uso</a>
     </div>
   </div>
 </footer>
 
 <!-- ═══════ MODAL: POLÍTICA DE PRIVACIDADE ═══════ -->
-<div class="legal-modal" id="modal-privacidade" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="legal-modal" id="modal-privacidade" onclick="if(event.target===this)closeLegal(this)">
   <div class="legal-modal-content">
-    <button class="legal-close" onclick="this.closest('.legal-modal').classList.remove('open')">&times;</button>
-    <h2>Pol&iacute;tica de Privacidade</h2>
-    <p><strong>Respons&aacute;vel:</strong> Juliano Dias Machado &mdash; Piracicaba/SP<br>
-    <strong>&Uacute;ltima atualiza&ccedil;&atilde;o:</strong> Abril de 2026</p>
+    <button class="legal-close" onclick="closeLegal(this.closest('.legal-modal'))">&times;</button>
+    <h2>Política de Privacidade</h2>
+    <p><strong>Controlador dos dados:</strong> Juliano Dias Machado — Piracicaba/SP, Brasil.<br>
+    <strong>Contato (Encarregado/DPO):</strong> julianodmchado@gmail.com<br>
+    <strong>Última atualização:</strong> Maio de 2026</p>
 
-    <h3>1. Dados Coletados</h3>
+    <p>Esta Política de Privacidade descreve como tratamos os dados pessoais dos visitantes e clientes do "App Gerador de Acordes" (Laboratório de Acordes), em conformidade com a Lei Geral de Proteção de Dados — Lei nº 13.709/2018 (LGPD). Ao navegar neste site ou adquirir o produto, você declara estar ciente das condições aqui descritas.</p>
+
+    <h3>1. Quem somos</h3>
+    <p>O tratamento dos dados é realizado por Juliano Dias Machado, produtor musical responsável pelo produto digital "App Gerador de Acordes" e seus materiais complementares, com sede em Piracicaba, Estado de São Paulo, Brasil.</p>
+
+    <h3>2. Dados pessoais que coletamos</h3>
     <ul>
-      <li><strong>Email:</strong> coletado pela plataforma de pagamento (Hotmart) no momento da compra.</li>
-      <li><strong>Cookies de sess&atilde;o:</strong> utilizados no Laborat&oacute;rio de Acordes para manter seu acesso ativo.</li>
-      <li><strong>Dados de navega&ccedil;&atilde;o:</strong> coletados automaticamente por pixels de rastreamento (Meta Pixel, Google Ads Tag, Google Tag Manager) para otimiza&ccedil;&atilde;o de an&uacute;ncios.</li>
+      <li><strong>Dados de identificação e contato:</strong> nome e endereço de e-mail, fornecidos por você no momento da compra através da plataforma de pagamento (Wiapy).</li>
+      <li><strong>Dados de transação:</strong> informações sobre o pedido, status do pagamento e identificador da transação. <strong>Não coletamos nem armazenamos dados de cartão de crédito</strong> — esses dados são tratados exclusivamente pela plataforma de pagamento.</li>
+      <li><strong>Dados de navegação e dispositivo:</strong> endereço IP, tipo de navegador, dispositivo e sistema operacional, páginas visitadas, tempo de permanência, origem do acesso (parâmetros UTM e identificadores de clique, como fbclid e gclid) e interações com a página, coletados automaticamente por cookies e tecnologias de rastreamento.</li>
+      <li><strong>Dados de autenticação:</strong> um identificador derivado (hash) do seu e-mail e um cookie de sessão, usados para liberar e manter seu acesso ao aplicativo. Não armazenamos seu e-mail em texto puro em nossos servidores de aplicação — apenas o hash correspondente.</li>
     </ul>
 
-    <h3>2. Finalidade</h3>
+    <h3>3. Cookies e tecnologias de rastreamento</h3>
+    <p>Utilizamos cookies próprios e de terceiros para os fins abaixo. Os cookies de marketing só são ativados após sua interação com a página:</p>
     <ul>
-      <li>Processar sua compra e liberar acesso ao curso e b&ocirc;nus.</li>
-      <li>Enviar c&oacute;digo de acesso ao Laborat&oacute;rio de Acordes por email.</li>
-      <li>Otimizar campanhas publicit&aacute;rias e medir resultados.</li>
+      <li><strong>Cookies necessários:</strong> cookie de sessão (HttpOnly, Secure) para autenticação no aplicativo. Sem ele, o acesso não funciona.</li>
+      <li><strong>Meta Pixel e API de Conversões (Meta Platforms):</strong> medição de conversões e otimização de anúncios no Facebook e no Instagram.</li>
+      <li><strong>Google Ads, Google Analytics 4 e Google Tag Manager (Google LLC):</strong> medição de campanhas, análise de audiência e gerenciamento de tags.</li>
+      <li><strong>Microsoft Clarity (Microsoft Corporation):</strong> mapas de calor e gravações anonimizadas de sessão para melhoria da página (o Clarity mascara conteúdo sensível por padrão).</li>
+      <li><strong>UTMify:</strong> atribuição da origem das vendas (de qual anúncio ou campanha veio a compra).</li>
     </ul>
 
-    <h3>3. Compartilhamento</h3>
-    <p>Seus dados podem ser compartilhados com:</p>
+    <h3>4. Finalidades do tratamento</h3>
     <ul>
-      <li><strong>Wiapy / GGCheckout:</strong> processamento de pagamento e entrega do produto.</li>
-      <li><strong>Meta (Facebook/Instagram):</strong> pixel de rastreamento para otimiza&ccedil;&atilde;o de an&uacute;ncios.</li>
-      <li><strong>Google:</strong> Google Ads e Analytics para medi&ccedil;&atilde;o de campanhas.</li>
-      <li><strong>Resend:</strong> envio de emails transacionais (c&oacute;digo de acesso).</li>
-      <li><strong>UTMify:</strong> rastreamento de origem das vendas.</li>
+      <li>Processar sua compra, liberar e manter o acesso ao aplicativo e aos bônus;</li>
+      <li>Enviar o código de acesso (OTP) e comunicações relacionadas à entrega do produto por e-mail;</li>
+      <li>Prestar suporte e responder solicitações;</li>
+      <li>Medir, otimizar e atribuir resultados de campanhas publicitárias;</li>
+      <li>Prevenir fraudes e abusos e cumprir obrigações legais.</li>
     </ul>
 
-    <h3>4. Seus Direitos (LGPD)</h3>
-    <p>Conforme a Lei 13.709/2018, voc&ecirc; tem direito a:</p>
+    <h3>5. Base legal (LGPD, art. 7º)</h3>
     <ul>
-      <li>Acessar seus dados pessoais.</li>
-      <li>Corrigir dados incompletos ou desatualizados.</li>
-      <li>Solicitar a exclus&atilde;o dos seus dados.</li>
-      <li>Revogar consentimento a qualquer momento.</li>
-    </ul>
-    <p>Para exercer seus direitos, entre em contato: <strong>julianodmchado@gmail.com</strong></p>
-
-    <h3>5. Cookies</h3>
-    <ul>
-      <li><strong>Necess&aacute;rios:</strong> cookie de sess&atilde;o para autentica&ccedil;&atilde;o no app (HttpOnly, Secure).</li>
-      <li><strong>Marketing:</strong> Meta Pixel, Google Ads Tag, GTM &mdash; para otimiza&ccedil;&atilde;o de an&uacute;ncios.</li>
+      <li><strong>Execução de contrato (art. 7º, V):</strong> dados necessários para processar a compra e entregar o produto;</li>
+      <li><strong>Consentimento (art. 7º, I):</strong> cookies e pixels de marketing, ativados mediante sua interação;</li>
+      <li><strong>Legítimo interesse (art. 7º, IX):</strong> segurança, prevenção a fraudes e melhoria do serviço;</li>
+      <li><strong>Cumprimento de obrigação legal (art. 7º, II):</strong> guarda de registros exigida por lei.</li>
     </ul>
 
-    <h3>6. Base Legal</h3>
-    <p>Execu&ccedil;&atilde;o de contrato (Art. 7, V da LGPD) para entrega do produto. Consentimento (Art. 7, I) para cookies de marketing.</p>
+    <h3>6. Compartilhamento de dados</h3>
+    <p>Compartilhamos dados apenas com operadores que viabilizam o serviço, na medida necessária:</p>
+    <ul>
+      <li><strong>Wiapy</strong> — processamento de pagamento e gestão da compra;</li>
+      <li><strong>Meta Platforms, Inc.</strong> — pixel e API de Conversões para anúncios;</li>
+      <li><strong>Google LLC</strong> — Google Ads, Analytics e Tag Manager;</li>
+      <li><strong>Microsoft Corporation</strong> — Clarity (análise de comportamento);</li>
+      <li><strong>UTMify</strong> — atribuição de origem de vendas;</li>
+      <li><strong>Resend</strong> — envio de e-mails transacionais (código de acesso);</li>
+      <li><strong>Upstash e Vercel</strong> — infraestrutura de hospedagem e banco de dados de autenticação.</li>
+    </ul>
+    <p>Não vendemos seus dados pessoais. Alguns desses operadores estão sediados no exterior, podendo haver <strong>transferência internacional de dados</strong>, sempre com salvaguardas adequadas conforme a LGPD.</p>
+
+    <h3>7. Retenção e eliminação</h3>
+    <p>Mantemos seus dados pelo tempo necessário às finalidades acima e ao cumprimento de obrigações legais. Como o acesso ao produto é vitalício, os dados de autenticação são mantidos enquanto o acesso existir. Você pode solicitar a eliminação a qualquer momento, ressalvadas as hipóteses de guarda obrigatória.</p>
+
+    <h3>8. Segurança da informação</h3>
+    <p>Adotamos medidas técnicas e organizacionais para proteger seus dados, incluindo criptografia em trânsito (HTTPS), armazenamento do e-mail apenas em forma de hash, cookies de sessão com atributos de segurança (HttpOnly/Secure) e tokens de acesso protegidos. Nenhum sistema é totalmente inviolável, mas trabalhamos continuamente para reduzir riscos.</p>
+
+    <h3>9. Seus direitos como titular (LGPD, art. 18)</h3>
+    <p>A qualquer momento e gratuitamente, você pode:</p>
+    <ul>
+      <li>Confirmar a existência de tratamento e acessar seus dados;</li>
+      <li>Corrigir dados incompletos, inexatos ou desatualizados;</li>
+      <li>Solicitar a anonimização, o bloqueio ou a eliminação de dados desnecessários ou tratados em desconformidade;</li>
+      <li>Solicitar a portabilidade dos dados;</li>
+      <li>Obter informação sobre com quem compartilhamos seus dados;</li>
+      <li>Revogar o consentimento e se opor a tratamentos.</li>
+    </ul>
+    <p>Para exercer seus direitos, escreva para <strong>julianodmchado@gmail.com</strong>. Poderemos solicitar informações adicionais para confirmar sua identidade.</p>
+
+    <h3>10. Gerenciamento de cookies</h3>
+    <p>Você pode bloquear ou apagar cookies nas configurações do seu navegador. A desativação de cookies necessários pode impedir o funcionamento do acesso ao aplicativo.</p>
+
+    <h3>11. Alterações desta política</h3>
+    <p>Esta política pode ser atualizada periodicamente. A versão vigente estará sempre disponível nesta página, com a respectiva data de atualização.</p>
   </div>
 </div>
 
 <!-- ═══════ MODAL: TERMOS DE USO ═══════ -->
-<div class="legal-modal" id="modal-termos" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="legal-modal" id="modal-termos" onclick="if(event.target===this)closeLegal(this)">
   <div class="legal-modal-content">
-    <button class="legal-close" onclick="this.closest('.legal-modal').classList.remove('open')">&times;</button>
+    <button class="legal-close" onclick="closeLegal(this.closest('.legal-modal'))">&times;</button>
     <h2>Termos de Uso</h2>
-    <p><strong>Respons&aacute;vel:</strong> Juliano Dias Machado &mdash; Piracicaba/SP<br>
-    <strong>&Uacute;ltima atualiza&ccedil;&atilde;o:</strong> Abril de 2026</p>
+    <p><strong>Responsável:</strong> Juliano Dias Machado — Piracicaba/SP, Brasil.<br>
+    <strong>Contato:</strong> julianodmchado@gmail.com<br>
+    <strong>Última atualização:</strong> Maio de 2026</p>
 
-    <h3>1. Produto</h3>
-    <p>O "App Gerador de Acordes" &eacute; um produto digital composto por: acesso ao aplicativo web de gera&ccedil;&atilde;o de progress&otilde;es harm&ocirc;nicas, drum kit com 60+ sons profissionais, guia "Por Onde Come&ccedil;ar" com checklist, e material sobre cria&ccedil;&atilde;o de guia no Suno.</p>
+    <p>Estes Termos de Uso regem a aquisição e a utilização do produto digital "App Gerador de Acordes" e seus materiais complementares. Ao adquirir e/ou utilizar o produto, você declara ter lido, compreendido e aceitado integralmente estas condições.</p>
 
-    <h3>2. Acesso</h3>
+    <h3>1. Descrição do produto</h3>
+    <p>O "App Gerador de Acordes" é um produto digital composto por:</p>
     <ul>
-      <li>O acesso &eacute; <strong>vital&iacute;cio</strong> e pessoal.</li>
-      <li>O acesso ao app requer verifica&ccedil;&atilde;o por email (OTP).</li>
-      <li>O conte&uacute;do disponibilizado no momento da compra permanece acess&iacute;vel vitaliciamente.</li>
+      <li>Acesso ao aplicativo web "Laboratório de Acordes", para geração de progressões harmônicas, visualização em piano roll e exportação de arquivos MIDI;</li>
+      <li>Drum Kit com mais de 60 sons profissionais;</li>
+      <li>Guia "Por Onde Começar" acompanhado de checklist;</li>
+      <li>Material sobre criação de guia musical no Suno.</li>
+    </ul>
+    <p>Os bônus são entregues em formato digital (download e/ou acesso online) e podem ser atualizados ou substituídos por versões equivalentes.</p>
+
+    <h3>2. Cadastro, acesso e autenticação</h3>
+    <ul>
+      <li>O acesso é liberado para o e-mail informado na compra e é <strong>pessoal e intransferível</strong>;</li>
+      <li>A autenticação é feita por código de uso único (OTP) enviado ao seu e-mail;</li>
+      <li>Você é responsável por manter a confidencialidade do seu acesso e por toda atividade realizada com suas credenciais.</li>
     </ul>
 
-    <h3>3. Garantia</h3>
-    <p>Garantia incondicional de <strong>7 dias</strong>. Solicite o reembolso integral diretamente pela plataforma Hotmart, sem necessidade de justificativa.</p>
+    <h3>3. Licença de uso</h3>
+    <p>Concedemos a você uma licença pessoal, limitada, não exclusiva e intransferível para uso do produto e dos bônus, exclusivamente para fins próprios e educacionais. Esta licença não transfere a você qualquer direito de propriedade sobre o conteúdo.</p>
 
-    <h3>4. Uso Permitido</h3>
+    <h3>4. Propriedade intelectual</h3>
+    <p>Todo o conteúdo — aplicativo, sons, textos, materiais, marca e identidade visual — é protegido por direitos autorais e pertence ao responsável ou a seus licenciantes. É proibida a cópia, reprodução, distribuição, revenda ou exibição pública sem autorização expressa.</p>
+
+    <h3>5. Condutas proibidas</h3>
     <ul>
-      <li>O conte&uacute;do &eacute; para uso pessoal e educacional.</li>
-      <li>&Eacute; <strong>proibida</strong> a revenda, redistribui&ccedil;&atilde;o ou compartilhamento do acesso.</li>
-      <li>O compartilhamento de credenciais pode resultar em revoga&ccedil;&atilde;o do acesso.</li>
+      <li>Compartilhar, emprestar, revender ou redistribuir o acesso, as credenciais ou o conteúdo;</li>
+      <li>Tentar burlar mecanismos de autenticação ou segurança;</li>
+      <li>Utilizar o produto para quaisquer fins ilícitos.</li>
     </ul>
+    <p>O descumprimento poderá resultar na <strong>revogação imediata do acesso, sem reembolso</strong>, sem prejuízo das medidas legais cabíveis.</p>
 
-    <h3>5. Entrega</h3>
-    <p>Ap&oacute;s a confirma&ccedil;&atilde;o do pagamento, o acesso &eacute; liberado automaticamente via &aacute;rea de membros da Hotmart. O Laborat&oacute;rio de Acordes &eacute; acessado pelo link fornecido na &aacute;rea de membros, mediante verifica&ccedil;&atilde;o por email.</p>
+    <h3>6. Preço e pagamento</h3>
+    <p>O preço vigente é o exibido na página de checkout no momento da compra. O pagamento é processado pela plataforma <strong>Wiapy</strong>. A liberação do acesso ocorre após a confirmação do pagamento.</p>
 
-    <h3>6. Contato</h3>
-    <p>D&uacute;vidas ou solicita&ccedil;&otilde;es: <strong>julianodmchado@gmail.com</strong></p>
+    <h3>7. Direito de arrependimento e garantia</h3>
+    <p>Conforme o art. 49 do Código de Defesa do Consumidor, você dispõe de <strong>7 (sete) dias</strong>, contados da compra, para solicitar o cancelamento e o reembolso integral, sem necessidade de justificativa. A solicitação pode ser feita pela plataforma de pagamento (Wiapy) ou pelo e-mail de contato. Após a confirmação, o acesso é revogado.</p>
+
+    <h3>8. Entrega</h3>
+    <p>Após a confirmação do pagamento, o acesso é liberado automaticamente. O aplicativo é acessado pelo link informado, mediante verificação por e-mail (OTP). O acesso é <strong>vitalício</strong> ao conteúdo disponibilizado no momento da compra, enquanto o produto e a infraestrutura estiverem em operação.</p>
+
+    <h3>9. Disponibilidade e suporte</h3>
+    <p>Empenhamo-nos para manter o aplicativo disponível, mas não garantimos funcionamento ininterrupto, podendo haver manutenções ou interrupções por fatores técnicos ou de terceiros. O suporte é prestado pelo e-mail de contato.</p>
+
+    <h3>10. Isenção sobre resultados</h3>
+    <p>O produto é uma ferramenta educacional e criativa. Não garantimos quaisquer resultados artísticos, financeiros ou de carreira, que dependem de fatores individuais como dedicação e prática.</p>
+
+    <h3>11. Limitação de responsabilidade</h3>
+    <p>Na máxima extensão permitida em lei, o responsável não se responsabiliza por danos indiretos, lucros cessantes ou prejuízos decorrentes do uso ou da impossibilidade de uso do produto, ou de falhas de serviços de terceiros.</p>
+
+    <h3>12. Alterações destes termos</h3>
+    <p>Estes Termos podem ser atualizados a qualquer tempo. A versão vigente estará sempre disponível nesta página, com a respectiva data de atualização.</p>
+
+    <h3>13. Lei aplicável e foro</h3>
+    <p>Estes Termos são regidos pelas leis brasileiras. Fica eleito o foro da Comarca de Piracicaba/SP para dirimir eventuais controvérsias, ressalvada disposição legal de proteção ao consumidor aplicável.</p>
+
+    <h3>14. Contato</h3>
+    <p>Dúvidas ou solicitações: <strong>julianodmchado@gmail.com</strong>.</p>
   </div>
 </div>
+
+<script>
+// Modais legais — abre/fecha com trava de scroll + ESC
+function openLegal(id){var m=document.getElementById(id);if(m){m.classList.add('open');document.body.style.overflow='hidden';}}
+function closeLegal(m){if(m){m.classList.remove('open');document.body.style.overflow='';}}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var o=document.querySelectorAll('.legal-modal.open');for(var i=0;i<o.length;i++){closeLegal(o[i]);}}});
+</script>
 
 <script>
 // ═══════ CONFIGURAÇÃO CENTRALIZADA ═══════
