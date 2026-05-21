@@ -2441,9 +2441,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script>
-// Modais legais — abre/fecha com trava de scroll + ESC
-function openLegal(id){var m=document.getElementById(id);if(m){m.classList.add('open');document.body.style.overflow='hidden';}}
-function closeLegal(m){if(m){m.classList.remove('open');document.body.style.overflow='';}}
+// Modais legais — trava de scroll SEM pulo (preserva posição) + ESC
+function openLegal(id){var m=document.getElementById(id);if(!m)return;window.__legalSY=window.scrollY||window.pageYOffset||0;m.classList.add('open');document.body.style.top=(-window.__legalSY)+'px';document.body.style.position='fixed';document.body.style.width='100%';}
+function closeLegal(m){if(!m)return;m.classList.remove('open');document.body.style.position='';document.body.style.top='';document.body.style.width='';window.scrollTo(0,window.__legalSY||0);}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){var o=document.querySelectorAll('.legal-modal.open');for(var i=0;i<o.length;i++){closeLegal(o[i]);}}});
 </script>
 
