@@ -3,10 +3,16 @@
 // O navegador dispara o MESMO evento via pixel com o MESMO event_id →
 // o Meta deduplica (não conta dobrado).
 //
-// Purchase NÃO passa por aqui — é responsabilidade do Wiapy (integração
-// Meta no painel do Wiapy). Este endpoint só aceita eventos de funil.
+// Suporta 2 pixels (multi-BM): pixel 1 (ABO) sempre; pixel 2 (CBO) só
+// quando META_PIXEL_ID_2 + META_CAPI_TOKEN_2 estiverem configurados.
+// O mesmo payload (mesmo event_id) vai pros dois → cada pixel deduplica
+// com seu próprio evento de browser.
 //
-// Token fica só aqui (env server-side), nunca exposto no HTML/browser.
+// Purchase NÃO passa por aqui — é responsabilidade do Wiapy (integração
+// Meta no painel do Wiapy, configurada pros dois pixels). Este endpoint
+// só aceita eventos de funil.
+//
+// Tokens ficam só aqui (env server-side), nunca expostos no HTML/browser.
 
 const META_API_VERSION = 'v21.0';
 const ALLOWED_EVENTS = ['PageView', 'ViewContent', 'InitiateCheckout'];
@@ -17,9 +23,17 @@ export default async function handler(req, res) {
     return;
   }
 
-  const PIXEL_ID = process.env.META_PIXEL_ID;
-  const TOKEN = process.env.META_CAPI_TOKEN;
-  if (!PIXEL_ID || !TOKEN) {
+  // Monta a lista de pixels-alvo a partir dos env vars.
+  // Pixel 1 é obrigatório (mantém comportamento atual). Pixel 2 é opcional.
+  const targets = [];
+  if (process.env.META_PIXEL_ID && process.env.META_CAPI_TOKEN) {
+    targets.push({ id: process.env.META_PIXEL_ID, token: process.env.META_CAPI_TOKEN });
+  }
+  if (process.env.META_PIXEL_ID_2 && process.env.META_CAPI_TOKEN_2) {
+    targets.push({ id: process.env.META_PIXEL_ID_2, token: process.env.META_CAPI_TOKEN_2 });
+  }
+
+  if (targets.length === 0) {
     // Ainda não configurado (pré-lançamento). Browser ignora silenciosamente.
     res.status(500).json({ error: 'capi_not_configured' });
     return;
@@ -67,21 +81,32 @@ export default async function handler(req, res) {
   // real do navegador nunca manda isso → vai pra produção normal.
   if (test_event_code) payload.test_event_code = test_event_code;
 
-  try {
-    const r = await fetch(
-      `https://graph.facebook.com/${META_API_VERSION}/${PIXEL_ID}/events?access_token=${encodeURIComponent(TOKEN)}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }
-    );
+  // Envia pros pixels em paralelo. Um falhar não derruba o outro.
+  const sendTo = (target) => fetch(
+    `https://graph.facebook.com/${META_API_VERSION}/${target.id}/events?access_token=${encodeURIComponent(target.token)}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }
+  ).then(async (r) => {
     const j = await r.json().catch(() => ({}));
-    if (!r.ok) {
-      res.status(502).json({ error: 'meta_rejected', detail: j });
+    return { id: target.id, ok: r.ok, received: j.events_received, detail: r.ok ? undefined : j };
+  });
+
+  try {
+    const settled = await Promise.allSettled(targets.map(sendTo));
+    const results = settled.map((s, i) =>
+      s.status === 'fulfilled' ? s.value : { id: targets[i].id, ok: false, detail: String(s.reason) }
+    );
+
+    const anyOk = results.some(r => r.ok);
+    // Mantém compat: 200 se ao menos um pixel aceitou; 502 só se todos falharem.
+    if (!anyOk) {
+      res.status(502).json({ error: 'meta_rejected', results });
       return;
     }
-    res.status(200).json({ ok: true, events_received: j.events_received });
+    res.status(200).json({ ok: true, results });
   } catch (e) {
     res.status(500).json({ error: 'capi_request_failed' });
   }
