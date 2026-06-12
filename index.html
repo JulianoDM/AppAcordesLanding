@@ -65,8 +65,8 @@
 <!-- Preload do avatar (LCP mobile — onde Lighthouse mede). Desktop usa img normal com fetchpriority. -->
 
 <!-- Fontes Google: NÃO bloqueiam render (print trick) — página pinta com fallback, depois troca -->
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=optional" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=optional" rel="stylesheet"></noscript>
 <style>
 :root {
   --bg:     #0A0A0F;
@@ -1778,7 +1778,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="laptop-mockup">
         <div class="laptop-screen">
           <div class="yt-facade" id="yt-demo" role="button" tabindex="0" aria-label="Assistir demonstração do Laboratório de Acordes (vídeo do YouTube)">
-            <img src="https://i.ytimg.com/vi/XCT6nVrv6GU/hqdefault.jpg" alt="Demonstração do Laboratório de Acordes em ação" loading="lazy" decoding="async" width="480" height="360">
+            <img src="img/demo-thumb.jpg" alt="Demonstração do Laboratório de Acordes em ação" fetchpriority="high" decoding="async" width="480" height="360">
             <span class="yt-facade-play" aria-hidden="true">
               <svg width="68" height="48" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#f00"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
             </span>
