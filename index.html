@@ -63,7 +63,6 @@
 <link rel="dns-prefetch" href="https://cdn.utmify.com.br">
 
 <!-- Preload do avatar (LCP mobile — onde Lighthouse mede). Desktop usa img normal com fetchpriority. -->
-<link rel="preload" as="image" href="img/foto-rosto-sm.webp" type="image/webp" fetchpriority="high">
 
 <!-- Fontes Google: NÃO bloqueiam render (print trick) — página pinta com fallback, depois troca -->
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -610,152 +609,6 @@ button:focus-visible, .btn:focus-visible, a:focus-visible {
 }
 
 /* ══════════════════════════════════
-   PAIN CARDS
-══════════════════════════════════ */
-.scenarios {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.sc-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: clamp(20px, 2vw, 28px);
-  padding: clamp(36px, 4vw, 56px);
-  transition: border-color .2s, transform .2s;
-  position: relative; overflow: hidden;
-}
-.sc-card:hover { border-color: var(--fl); transform: translateY(-3px); }
-.sc-card::before {
-  content: attr(data-num);
-  font-family: var(--font-h); font-weight: 900;
-  font-size: 9rem; line-height: 1;
-  color: rgba(255,255,255,.04);
-  position: absolute; top: -16px; right: 14px;
-  pointer-events: none;
-}
-.sc-title {
-  font-family: var(--font-h);
-  font-weight: 900; font-size: clamp(1.4rem, 2vw, 1.8rem);
-  text-transform: uppercase; margin-bottom: 14px;
-  line-height: 1.15;
-}
-.sc-text {
-  font-size: clamp(1rem, 1.1vw, 1.05rem);
-  color: var(--text2); line-height: 1.7;
-}
-.sc-text strong { color: var(--text); font-weight: 600; }
-
-/* CTA grande embaixo dos pain cards */
-.problema-cta-wrap {
-  margin-top: clamp(32px, 4vw, 48px);
-  text-align: center;
-}
-.problema-cta-wrap .btn-xl {
-  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
-  padding: clamp(18px, 2vw, 24px) clamp(32px, 4vw, 56px);
-  border-radius: 999px;
-  letter-spacing: .02em;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-  white-space: normal;
-  line-height: 1.2;
-  max-width: 100%;
-}
-.problema-cta-wrap .btn-xl-sub {
-  display: block;
-  font-family: var(--font-b);
-  font-weight: 600;
-  font-size: .8rem;
-  text-transform: none;
-  letter-spacing: 0;
-  color: rgba(0,0,0,.78);
-  margin-top: 4px;
-}
-
-/* Cards DIAGNÓSTICO + POR QUE (estilo roadmap/dev de oferta) */
-.diag-grid {
-  display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: 16px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.diag-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: clamp(20px, 2vw, 28px);
-  padding: clamp(28px, 3vw, 40px);
-  display: flex; flex-direction: column;
-  gap: 16px;
-  transition: border-color .2s, transform .2s;
-}
-.diag-card:hover { border-color: var(--lime); transform: translateY(-3px); }
-.diag-label {
-  font-family: var(--font-h);
-  font-weight: 700; font-size: .72rem;
-  text-transform: uppercase; letter-spacing: .12em;
-  color: var(--lime);
-}
-.diag-title {
-  font-family: var(--font-h);
-  font-weight: 900; font-size: clamp(1.3rem, 2.4vw, 1.7rem);
-  line-height: 1.15; color: var(--text);
-}
-.diag-text {
-  font-size: .95rem; color: var(--text2); line-height: 1.7;
-  flex: 1;
-}
-.diag-text strong { color: var(--text); font-weight: 600; }
-.diag-badges {
-  display: flex; gap: 10px; flex-wrap: wrap;
-  margin-top: auto;
-}
-.diag-badge {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--lime); color: #000;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-h); font-weight: 800; font-size: .78rem;
-  letter-spacing: .02em;
-  box-shadow: 0 4px 16px rgba(198,255,0,.2);
-}
-.diag-chips {
-  display: flex; gap: 8px; flex-wrap: wrap;
-  justify-content: flex-end;
-  margin-top: auto;
-}
-.diag-chip {
-  padding: 8px 16px; border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,.02);
-  font-family: var(--font-h); font-weight: 700; font-size: .72rem;
-  text-transform: uppercase; letter-spacing: .08em;
-  color: var(--text2);
-}
-@media (max-width: 768px) {
-  .diag-grid { grid-template-columns: 1fr; }
-  .diag-chips { justify-content: flex-start; }
-}
-
-.punch-banner {
-  margin-top: 24px;
-  background: linear-gradient(135deg, var(--fl), #FF8A30);
-  border-radius: var(--r);
-  padding: clamp(28px, 4vw, 44px) clamp(28px, 4vw, 48px);
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 24px; flex-wrap: wrap;
-}
-.punch-text {
-  font-family: var(--font-h);
-  font-weight: 900; font-size: clamp(1.3rem, 2.8vw, 2rem);
-  text-transform: uppercase; color: #000; line-height: 1.05;
-}
-
-/* ══════════════════════════════════
    METHOD STEPS
 ══════════════════════════════════ */
 .steps { display: flex; flex-direction: column; gap: 12px; }
@@ -976,6 +829,40 @@ button:focus-visible, .btn:focus-visible, a:focus-visible {
 }
 .laptop-mockup {
   filter: drop-shadow(0 12px 48px rgba(0,0,0,.5));
+}
+
+/* ── YouTube facade: thumbnail + play; iframe só carrega no clique ── */
+.yt-facade {
+  position: relative;
+  aspect-ratio: 16/9;
+  width: 100%;
+  background: #000;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 4px 4px 0 0;
+}
+.yt-facade img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.yt-facade-play {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.5));
+  opacity: .92;
+  transition: opacity .15s, transform .15s;
+  pointer-events: none;
+}
+.yt-facade:hover .yt-facade-play,
+.yt-facade:focus-visible .yt-facade-play {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.yt-facade iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
 }
 
 /* ══════════════════════════════════
@@ -1461,37 +1348,17 @@ footer {
     text-align: center;
   }
   .hero-left { order: 1; }
-  /* Foto grande sumiu, mas a animação aparece compacta ABAIXO do CTA — CTA bate direto na 1ª tela */
+  /* Mobile enxuto: foto e animação fora, texto + CTA pintam na hora */
   .hero-photo { display: none; }
-  .hero-animation {
-    order: 2;
-    max-height: 320px;
-    aspect-ratio: 1/1;
-    margin: 8px auto 0;
-    justify-self: center;
-    max-width: 360px;
+  .hero-animation { display: none; }
+  /* Sem animação de entrada no mobile: conteúdo visível imediatamente (LCP não espera JS) */
+  .reveal, .reveal.vis {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
-  /* Avatar mobile escondido — primeira tela enxuta, foco direto no CTA */
-  .hero-avatar-mobile {
-    display: none !important;
-  }
-  .hero-avatar-mobile img {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center top;
-    border: 2px solid var(--fl);
-    box-shadow: 0 0 14px rgba(139,92,246,.25);
-  }
-  .hero-avatar-mobile-info { text-align: left; }
-  .hero-avatar-mobile-name {
-    font-family: var(--font-h); font-weight: 700;
-    font-size: .9rem; text-transform: uppercase; color: #fff;
-    line-height: 1.1;
-  }
-  .hero-avatar-mobile-role { font-size: .72rem; color: var(--text3); }
-  /* Esconder sub + ghost button + foto grande — primeira tela enxuta, foco no CTA principal */
-  .hero-sub { display: none; }
+  /* hero-sub VISÍVEL no mobile (copy MP3/MIDI) — só o botão ghost some */
+  .hero-sub { max-width: none; }
   .hero-ctas { justify-content: center; margin-top: 4px; margin-bottom: 12px; }
   .hero-ctas .btn-ghost { display: none; }
   .hero-stats { justify-content: center; }
@@ -1499,7 +1366,6 @@ footer {
   .hero-badge { padding: 6px 16px; margin-bottom: 12px; }
   .hero-badge-text { font-size: .78rem; }
 
-  .scenarios { grid-template-columns: 1fr; }
   .lab-section { grid-template-columns: 1fr; gap: 24px; }
   .lab-section .laptop-mockup { order: -1; }
   .lab-info { text-align: center; align-items: center; }
@@ -1538,7 +1404,6 @@ footer {
   .topbar-text { font-size: .85rem; }
 
   .sec-title { font-size: clamp(1.8rem, 6vw, 2.8rem); }
-  .punch-banner { flex-direction: column; text-align: center; }
   .lab-title { font-size: clamp(1.6rem, 6vw, 2.4rem); }
   .final-h { font-size: clamp(2rem, 8vw, 3.5rem); }
 }
@@ -1549,12 +1414,8 @@ footer {
   .hero-badge { padding: 5px 14px; margin-bottom: 16px; }
   .hero-badge-text { font-size: .72rem; }
   .hero-badge-dot { width: 6px; height: 6px; }
-  .hero-avatar-mobile img { width: 48px; height: 48px; }
-  .hero-avatar-mobile-name { font-size: .85rem; }
   /* Em 480px, esconde stats pra CTA + preço caberem na 1ª tela */
   .hero-stats { display: none; }
-  /* Animação ainda mais compacta em telas pequenas */
-  .hero-animation { max-height: 280px; max-width: 300px; margin-top: 12px; }
   .topbar { padding: 6px 8px 6px 16px; max-width: 360px; }
   .topbar-text { font-size: .72rem; }
   .topbar-btn { padding: 7px 16px; font-size: .78rem; }
@@ -1734,16 +1595,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="hero" aria-label="Apresentação do app de acordes">
   <div class="wrap hero-wrap">
     <div class="hero-left">
-      <div class="hero-avatar-mobile" style="display:none;">
-        <picture>
-          <source srcset="img/foto-rosto-sm.webp" type="image/webp">
-          <img src="img/foto-rosto.jpg" alt="Juliano Dias" width="90" height="90" fetchpriority="high" decoding="async">
-        </picture>
-        <div class="hero-avatar-mobile-info">
-          <div class="hero-avatar-mobile-name">Juliano Dias</div>
-          <div class="hero-avatar-mobile-role">Pianista & Produtor Musical</div>
-        </div>
-      </div>
       <div class="hero-badge reveal" aria-hidden="true">
         <span class="hero-badge-dot"></span>
         <span class="hero-badge-text">Funciona em qualquer DAW</span>
@@ -1902,39 +1753,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<!-- ═══════ PROBLEMA (3 cards: Não sabe finalizar / organizar / começar) ═══════ -->
-<section class="section" id="problema" style="background:var(--bg2);">
-  <div class="wrap">
-    <div class="sec-header reveal">
-      <span class="sec-label">Diagnóstico</span>
-      <h2 class="sec-title">Suas ideias estão <span class="lime">presas</span> na sua cabeça?</h2>
-      <p class="sec-sub">Não é falta de talento. É falta da ferramenta certa pra tirar do papel.</p>
-    </div>
-
-    <div class="scenarios reveal">
-      <div class="sc-card" data-num="01">
-        <div class="sc-title">Letra escrita, melodia perdida</div>
-        <p class="sc-text">Você tem a letra, mas trava na harmonia. <strong>A ideia que era ouro acaba na gaveta</strong> — porque não sabe quais acordes usar.</p>
-      </div>
-      <div class="sc-card" data-num="02">
-        <div class="sc-title">Travado no instrumento</div>
-        <p class="sc-text">Nem sabe o que é acorde maior, menor, qual progressão dá emoção. <strong>Cada tentativa termina em desânimo</strong> e a música nunca sai.</p>
-      </div>
-      <div class="sc-card" data-num="03">
-        <div class="sc-title">Tutorial infinito</div>
-        <p class="sc-text">Horas no YouTube estudando teoria e <strong>nenhuma harmonia que soe profissional</strong>. Não é falta de talento. É falta de ferramenta.</p>
-      </div>
-    </div>
-
-    <div class="problema-cta-wrap reveal">
-      <a href="#" class="btn btn-primary btn-xl checkout-btn" data-event="cta_problema">
-        Quero destravar minhas ideias
-        <span class="btn-xl-sub">App + 3 bônus por R$ 37,90 · 7 dias de garantia</span>
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- ═══════ ARSENAL (Laboratório + Bônus integrados) ═══════ -->
 <section class="section" id="laboratorio">
   <div class="wrap">
@@ -1959,10 +1777,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="laptop-mockup">
         <div class="laptop-screen">
-          <video id="lab-video" loop muted playsinline preload="none" aria-label="Laboratório de Acordes em ação — gerando progressões de acordes, tocando no piano virtual e exportando MIDI">
-            <source data-src="laboratorio-acordes.webm" type="video/webm">
-            <source data-src="laboratorio-acordes.mp4" type="video/mp4">
-          </video>
+          <div class="yt-facade" id="yt-demo" role="button" tabindex="0" aria-label="Assistir demonstração do Laboratório de Acordes (vídeo do YouTube)">
+            <img src="https://i.ytimg.com/vi/XCT6nVrv6GU/hqdefault.jpg" alt="Demonstração do Laboratório de Acordes em ação" loading="lazy" decoding="async" width="480" height="360">
+            <span class="yt-facade-play" aria-hidden="true">
+              <svg width="68" height="48" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#f00"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
+            </span>
+          </div>
         </div>
         <div class="laptop-base"></div>
         <div class="laptop-hinge"></div>
@@ -1997,26 +1817,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- 3 bônus adicionais (sem duplicar o app, que já é o centro) -->
     <div class="bonuses bonuses-arsenal">
       <div class="bonus-card reveal">
+        <div class="bonus-icon">📘</div>
+        <div>
+          <div class="bonus-title">Checklist "Por Onde Começar"</div>
+          <div class="bonus-desc">Abriu a DAW e travou na tela em branco? Roteiro direto do primeiro clique até o beat fechado: <strong>o que fazer, em que ordem, sem teoria desnecessária.</strong></div>
+        </div>
+        <div class="bonus-price"><div class="bonus-price-val">R$ 29</div><div class="bonus-price-sub">incluso grátis</div></div>
+      </div>
+      <div class="bonus-card reveal d1">
         <div class="bonus-icon">🥁</div>
         <div>
           <div class="bonus-title">Drum Kit — 60+ Sons Profissionais</div>
-          <div class="bonus-desc">Sons selecionados e prontos pra usar. A base perfeita pra dar vida à sua harmonia.</div>
+          <div class="bonus-desc">Kicks, snares, hats e percs selecionados, prontos pra <strong>arrastar direto no FL Studio, Reaper ou qualquer DAW</strong>. Sua harmonia ganha groove em segundos.</div>
         </div>
         <div class="bonus-price"><div class="bonus-price-val">R$ 39</div><div class="bonus-price-sub">incluso grátis</div></div>
-      </div>
-      <div class="bonus-card reveal d1">
-        <div class="bonus-icon">📘</div>
-        <div>
-          <div class="bonus-title">Guia "Por Onde Começar" + Checklist</div>
-          <div class="bonus-desc">Roteiro claro do primeiro passo até a música pronta. <strong>Sem se perder, sem travar.</strong></div>
-        </div>
-        <div class="bonus-price"><div class="bonus-price-val">R$ 29</div><div class="bonus-price-sub">incluso grátis</div></div>
       </div>
       <div class="bonus-card reveal d2">
         <div class="bonus-icon">🎤</div>
         <div>
           <div class="bonus-title">Crie sua Guia no Suno (IA)</div>
-          <div class="bonus-desc">Material ensinando a usar o Suno pra gerar guias de melodia. Tira seu projeto do papel mais rápido.</div>
+          <div class="bonus-desc">Gere a guia de melodia da sua track com IA: <strong>da progressão pronta à referência vocal</strong>, sem depender de cantor pra tirar a ideia do papel.</div>
         </div>
         <div class="bonus-price"><div class="bonus-price-val">R$ 19</div><div class="bonus-price-sub">incluso grátis</div></div>
       </div>
@@ -2119,12 +1939,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="pricing-section-label">🎁 Bônus inclusos <span>hoje</span></div>
           <div class="pricing-item">
-            <span class="pricing-item-name">🥁 Drum Kit (60+ sons)</span>
-            <span class="pricing-item-right"><span class="pricing-item-val">R$ 39</span><span class="pricing-item-tag">Grátis</span></span>
+            <span class="pricing-item-name">📘 Checklist "Por Onde Começar"</span>
+            <span class="pricing-item-right"><span class="pricing-item-val">R$ 29</span><span class="pricing-item-tag">Grátis</span></span>
           </div>
           <div class="pricing-item">
-            <span class="pricing-item-name">📘 Guia "Por Onde Começar" + Checklist</span>
-            <span class="pricing-item-right"><span class="pricing-item-val">R$ 29</span><span class="pricing-item-tag">Grátis</span></span>
+            <span class="pricing-item-name">🥁 Drum Kit (60+ sons)</span>
+            <span class="pricing-item-right"><span class="pricing-item-val">R$ 39</span><span class="pricing-item-tag">Grátis</span></span>
           </div>
           <div class="pricing-item">
             <span class="pricing-item-name">🎤 Material "Crie sua Guia no Suno"</span>
@@ -2621,24 +2441,29 @@ if('IntersectionObserver' in window){
   }
 }
 
-// Lazy-load do vídeo do Laboratório — só carrega quando entra no viewport
+// YouTube facade — o player só carrega quando o usuário clica (zero custo no load)
 (function(){
-  var video = document.getElementById('lab-video');
-  if(!video || !('IntersectionObserver' in window)){ return; }
-  var loaded = false;
-  var vObs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting && !loaded){
-        loaded = true;
-        var sources = video.querySelectorAll('source[data-src]');
-        sources.forEach(function(s){ s.src = s.getAttribute('data-src'); });
-        video.load();
-        video.play().catch(function(){}); // ignora autoplay block do safari
-        vObs.unobserve(e.target);
-      }
-    });
-  },{rootMargin:'200px 0px'}); // começa a carregar 200px antes de aparecer
-  vObs.observe(video);
+  var facade = document.getElementById('yt-demo');
+  if(!facade){ return; }
+  var activated = false;
+  function loadPlayer(){
+    if(activated) return; activated = true;
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube-nocookie.com/embed/XCT6nVrv6GU?autoplay=1&rel=0';
+    iframe.title = 'Demonstração do Laboratório de Acordes';
+    iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; web-share');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    facade.innerHTML = '';
+    facade.appendChild(iframe);
+    facade.removeAttribute('role');
+    facade.removeAttribute('tabindex');
+    facade.style.cursor = 'default';
+  }
+  facade.addEventListener('click', loadPlayer);
+  facade.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); loadPlayer(); }
+  });
 })();
 </script>
 </body>
