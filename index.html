@@ -65,8 +65,8 @@
 <!-- Preload do avatar (LCP mobile — onde Lighthouse mede). Desktop usa img normal com fetchpriority. -->
 
 <!-- Fontes Google: NÃO bloqueiam render (print trick) — página pinta com fallback, depois troca -->
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=optional" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=optional" rel="stylesheet"></noscript>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 <style>
 :root {
   --bg:     #0A0A0F;
