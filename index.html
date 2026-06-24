@@ -588,7 +588,12 @@ button:focus-visible, .btn:focus-visible, a:focus-visible {
 .section {
   padding: clamp(80px, 10vw, 140px) 0;
   position: relative;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1200px;
 }
+#laboratorio { contain-intrinsic-size: auto 1800px; }
+#daws        { contain-intrinsic-size: auto 400px; }
+#oferta      { contain-intrinsic-size: auto 3500px; }
 .sec-header { text-align: center; margin-bottom: clamp(40px, 6vw, 72px); }
 .sec-label {
   font-weight: 600; font-size: .85rem;
@@ -1406,8 +1411,10 @@ footer {
   .pricing-total-num .cts { font-size: 1.2rem; }
   .pricing-from { font-size: .85rem; }
   .pricing-save { font-size: .75rem; padding: 4px 12px; }
-  .topbar { max-width: 420px; }
+  .topbar { max-width: 420px; backdrop-filter: none; }
   .topbar-text { font-size: .85rem; }
+  .hero-photo-label { backdrop-filter: none; }
+  .legal-modal { backdrop-filter: none; }
 
   .sec-title { font-size: clamp(1.8rem, 6vw, 2.8rem); }
   .lab-title { font-size: clamp(1.6rem, 6vw, 2.4rem); }
@@ -1555,9 +1562,9 @@ window.fbTrack = function(eventName, customData){
 
   // Dispara após load completo OU na primeira interação (o que vier antes)
   if(document.readyState === 'complete'){
-    setTimeout(loadTracking, 4000);
+    setTimeout(loadTracking, 12000);
   } else {
-    window.addEventListener('load', function(){ setTimeout(loadTracking, 4000); }, {once:true});
+    window.addEventListener('load', function(){ setTimeout(loadTracking, 12000); }, {once:true});
   }
   ['scroll','mousedown','touchstart','keydown'].forEach(function(ev){
     window.addEventListener(ev, loadTracking, {once:true, passive:true});
@@ -2004,19 +2011,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="expert-photo-big">
             <picture>
               <source srcset="img/foto-studio.webp" type="image/webp">
-              <img src="img/foto-studio.jpg" alt="Juliano Dias no estúdio de produção musical" loading="lazy" decoding="async">
+              <img src="img/foto-studio.jpg" alt="Juliano Dias no estúdio de produção musical" loading="lazy" decoding="async" width="1200" height="1600">
             </picture>
           </div>
           <div class="expert-photo-sm">
             <picture>
               <source srcset="img/foto-rosto.webp" type="image/webp">
-              <img src="img/foto-rosto.jpg" alt="Juliano Dias" loading="lazy" decoding="async">
+              <img src="img/foto-rosto.jpg" alt="Juliano Dias" loading="lazy" decoding="async" width="1200" height="1600">
             </picture>
           </div>
           <div class="expert-photo-sm">
             <picture>
               <source srcset="img/foto-piano.webp" type="image/webp">
-              <img src="img/foto-piano.jpg" alt="Juliano Dias tocando piano" loading="lazy" decoding="async">
+              <img src="img/foto-piano.jpg" alt="Juliano Dias tocando piano" loading="lazy" decoding="async" width="1200" height="900">
             </picture>
           </div>
         </div>
