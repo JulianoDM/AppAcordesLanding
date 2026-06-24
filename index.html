@@ -224,7 +224,13 @@ button:focus-visible, .btn:focus-visible, a:focus-visible {
   overflow: hidden;
   box-shadow: 0 8px 48px rgba(0,0,0,.5);
 }
-.hero-video-wrap .yt-facade { border-radius: 0; }
+.hero-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
 .h1-soft { color: var(--text2); font-weight: 300; }
 
 .hero-badge {
@@ -1509,11 +1515,7 @@ window.fbTrack = function(eventName, customData){
 (function(){
   var loaded = false;
   function loadTracking(){
-    if(loaded) return;
-    // Vídeo tocando ganha a main thread limpa: adia o tracking (Pixel/Clarity/GTM)
-    // enquanto o player do YouTube inicia — senão o vídeo reinicia várias vezes.
-    if(window.__ytBooting){ setTimeout(loadTracking, 8000); return; }
-    loaded = true;
+    if(loaded) return; loaded = true;
 
     // dataLayer stub (pra código que dispara eventos antes do GTM carregar)
     window.dataLayer = window.dataLayer || [];
@@ -1622,12 +1624,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </h1>
 
       <div class="hero-video-wrap reveal d1">
-        <div class="yt-facade" id="yt-demo" role="button" tabindex="0" aria-label="Assistir demonstração do Laboratório de Acordes (vídeo do YouTube)">
-          <img src="img/demo-thumb.jpg" alt="Demonstração do Laboratório de Acordes em ação" fetchpriority="high" decoding="async" width="480" height="360">
-          <span class="yt-facade-play" aria-hidden="true">
-            <svg width="68" height="48" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#f00"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
-          </span>
-        </div>
+        <video id="lab-video" class="hero-video" loop muted playsinline preload="none" poster="img/demo-thumb.jpg" width="1138" height="640" aria-label="Laboratório de Acordes em ação — gerando progressões de acordes e exportando MP3/MIDI">
+          <source data-src="laboratorio-acordes.webm" type="video/webm">
+          <source data-src="laboratorio-acordes.mp4" type="video/mp4">
+        </video>
       </div>
 
       <p class="hero-sub reveal d1">
@@ -2421,44 +2421,30 @@ if('IntersectionObserver' in window){
   }
 }
 
-// YouTube facade — o player só carrega quando o usuário clica (zero custo no load)
+// Vídeo do hero (self-hosted, mudo em loop) — carrega/toca quando entra no viewport.
+// Mudo + playsinline + loop = autoplay confiável no celular, sem reiniciar
+// (diferente do iframe do YouTube com som, que o mobile estrangula e reinicia).
 (function(){
-  var facade = document.getElementById('yt-demo');
-  if(!facade){ return; }
-  var activated = false;
-  function loadPlayer(){
-    if(activated) return; activated = true;
-    // Segura o tracking enquanto o player inicia (ver loadTracking) — evita o
-    // restart do vídeo no celular causado por Pixel/Clarity/GTM na main thread.
-    window.__ytBooting = true;
-    setTimeout(function(){ window.__ytBooting = false; }, 20000);
-    var iframe = document.createElement('iframe');
-    iframe.src = 'https://www.youtube-nocookie.com/embed/XCT6nVrv6GU?autoplay=1&playsinline=1&rel=0';
-    iframe.title = 'Demonstração do Laboratório de Acordes';
-    iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; web-share');
-    iframe.setAttribute('allowfullscreen', '');
-    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-    iframe.addEventListener('load', function(){
-      setTimeout(function(){ window.__ytBooting = false; }, 8000);
-    }, {once:true});
-    // NÃO esvazia o facade: o thumbnail fica no fluxo como esqueleto de tamanho
-    // (iframe é absoluto — sem conteúdo em fluxo o box colapsa pra 0x0)
-    var play = facade.querySelector('.yt-facade-play');
-    if(play) play.style.display = 'none';
-    facade.appendChild(iframe);
-    facade.removeAttribute('role');
-    facade.removeAttribute('tabindex');
-    facade.style.cursor = 'default';
+  var video = document.getElementById('lab-video');
+  if(!video){ return; }
+  function start(){
+    var sources = video.querySelectorAll('source[data-src]');
+    for(var i=0;i<sources.length;i++){ sources[i].src = sources[i].getAttribute('data-src'); }
+    video.load();
+    video.play().catch(function(){}); // ignora bloqueio de autoplay (mantém poster)
   }
-  // Impede que o toque pra dar play borbulhe até a window e dispare o tracking
-  // no mesmo instante (Clarity força reflow → vídeo trava/reinicia no celular).
-  ['mousedown','touchstart','click'].forEach(function(ev){
-    facade.addEventListener(ev, function(e){ e.stopPropagation(); });
-  });
-  facade.addEventListener('click', loadPlayer);
-  facade.addEventListener('keydown', function(e){
-    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); loadPlayer(); }
-  });
+  if(!('IntersectionObserver' in window)){ start(); return; }
+  var loaded = false;
+  var vObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !loaded){
+        loaded = true;
+        start();
+        vObs.unobserve(e.target);
+      }
+    });
+  },{rootMargin:'200px 0px'}); // começa a carregar 200px antes de aparecer
+  vObs.observe(video);
 })();
 </script>
 </body>
