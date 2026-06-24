@@ -51,8 +51,6 @@
   }
 }
 </script>
-<!-- Preconnects: só os críticos pro LCP (Lighthouse avisa se passar de 4) -->
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- dns-prefetch pros domínios secundários (custo ~0, só resolve DNS) -->
 <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 <link rel="dns-prefetch" href="https://pay.hotmart.com">
@@ -61,12 +59,9 @@
 <link rel="dns-prefetch" href="https://connect.facebook.net">
 <link rel="dns-prefetch" href="https://www.clarity.ms">
 <link rel="dns-prefetch" href="https://cdn.utmify.com.br">
-
-<!-- Preload do avatar (LCP mobile — onde Lighthouse mede). Desktop usa img normal com fetchpriority. -->
-
-<!-- Fontes Google: NÃO bloqueiam render (print trick) — página pinta com fallback, depois troca -->
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+<!-- Fontes self-hosted — elimina domínio externo fonts.googleapis.com/gstatic.com do critical path.
+     NÃO pré-carregar: texto pinta no fallback size-adjusted (font-display:swap),
+     fonte custom chega logo depois sem bloquear LCP. -->
 <style>
 :root {
   --bg:     #0A0A0F;
@@ -90,6 +85,11 @@
   --font-h: 'Big Shoulders Display', 'Big Shoulders Fallback', Impact, sans-serif;
   --font-b: 'Inter', 'Inter Fallback', system-ui, sans-serif;
 }
+
+@font-face{font-family:'Big Shoulders Display';font-style:normal;font-weight:700 900;font-display:swap;src:url(/fonts/bigshoulders-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Big Shoulders Display';font-style:normal;font-weight:700 900;font-display:swap;src:url(/fonts/bigshoulders-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Inter';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/inter-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-weight:300 700;font-display:swap;src:url(/fonts/inter-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 
 /* Fallback fonts com métricas ajustadas pra minimizar layout shift no swap da fonte custom.
    Ideia: quando Big Shoulders/Inter finalmente carregam, o reflow é quase zero porque
