@@ -1509,7 +1509,11 @@ window.fbTrack = function(eventName, customData){
 (function(){
   var loaded = false;
   function loadTracking(){
-    if(loaded) return; loaded = true;
+    if(loaded) return;
+    // Vídeo tocando ganha a main thread limpa: adia o tracking (Pixel/Clarity/GTM)
+    // enquanto o player do YouTube inicia — senão o vídeo reinicia várias vezes.
+    if(window.__ytBooting){ setTimeout(loadTracking, 8000); return; }
+    loaded = true;
 
     // dataLayer stub (pra código que dispara eventos antes do GTM carregar)
     window.dataLayer = window.dataLayer || [];
@@ -2424,12 +2428,19 @@ if('IntersectionObserver' in window){
   var activated = false;
   function loadPlayer(){
     if(activated) return; activated = true;
+    // Segura o tracking enquanto o player inicia (ver loadTracking) — evita o
+    // restart do vídeo no celular causado por Pixel/Clarity/GTM na main thread.
+    window.__ytBooting = true;
+    setTimeout(function(){ window.__ytBooting = false; }, 20000);
     var iframe = document.createElement('iframe');
     iframe.src = 'https://www.youtube-nocookie.com/embed/XCT6nVrv6GU?autoplay=1&playsinline=1&rel=0';
     iframe.title = 'Demonstração do Laboratório de Acordes';
     iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; web-share');
     iframe.setAttribute('allowfullscreen', '');
     iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    iframe.addEventListener('load', function(){
+      setTimeout(function(){ window.__ytBooting = false; }, 8000);
+    }, {once:true});
     // NÃO esvazia o facade: o thumbnail fica no fluxo como esqueleto de tamanho
     // (iframe é absoluto — sem conteúdo em fluxo o box colapsa pra 0x0)
     var play = facade.querySelector('.yt-facade-play');
@@ -2439,9 +2450,14 @@ if('IntersectionObserver' in window){
     facade.removeAttribute('tabindex');
     facade.style.cursor = 'default';
   }
+  // Impede que o toque pra dar play borbulhe até a window e dispare o tracking
+  // no mesmo instante (Clarity força reflow → vídeo trava/reinicia no celular).
+  ['mousedown','touchstart','click'].forEach(function(ev){
+    facade.addEventListener(ev, function(e){ e.stopPropagation(); });
+  });
   facade.addEventListener('click', loadPlayer);
   facade.addEventListener('keydown', function(e){
-    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); loadPlayer(); }
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); loadPlayer(); }
   });
 })();
 </script>
